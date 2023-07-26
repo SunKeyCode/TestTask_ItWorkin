@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "testtask-itworkin"
+version = "0.1.0"
+description = ""
+authors = ["sunny <stratdn@mail.ru>"]
+readme = "README.md"
+packages = [{include = "testtask_itworkin"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.100.0"
+uvicorn = "^0.23.1"
+python-dotenv = "^1.0.0"
+sqlalchemy = "^2.0.19"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
