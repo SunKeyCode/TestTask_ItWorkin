@@ -2,11 +2,11 @@ from typing import Sequence
 
 from sqlalchemy import select
 
-from crud.base_class import BaseDBManager
+from crud.base_class import BaseDBRepo
 from models.message import Message
 
 
-class MessageDBManager(BaseDBManager):
+class MessageDBRepo(BaseDBRepo):
 
     async def create(self, sender, recipient, text: str) -> Message:
         async with self.session.begin():

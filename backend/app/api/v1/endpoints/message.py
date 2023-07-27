@@ -4,7 +4,7 @@ from starlette import status
 
 from dependencies.db_session import get_db_session
 from schemas.message import MessageSendModelIn, MessageSendModelOut
-from crud.message import MessageDBManager
+from crud.message import MessageDBRepo
 
 router = APIRouter(prefix="/messages")
 
@@ -20,7 +20,7 @@ async def create_message(
         message_data: MessageSendModelIn,
         session: AsyncSession = Depends(get_db_session),
 ):
-    message = await MessageDBManager(session).create(**message_data.model_dump())
+    message = await MessageDBRepo(session).create(**message_data.model_dump())
 
     return message
 
@@ -33,7 +33,7 @@ async def create_message(
 async def get_messages(
         session: AsyncSession = Depends(get_db_session),
 ):
-    messages = await MessageDBManager(session).get_undelivered(3)
+    messages = await MessageDBRepo(session).get_undelivered(3)
     return messages
 
 
