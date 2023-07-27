@@ -7,7 +7,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from dependencies.db_session import get_db_session
-from models.users import User, UserProfile
+from models.user import User, UserProfile
 
 
 class CustomSQLAlchemyUserDatabase(SQLAlchemyUserDatabase):

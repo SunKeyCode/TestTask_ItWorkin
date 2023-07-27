@@ -11,6 +11,8 @@ DB_USER = os.environ.get("DB_USER")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
 DB_HOST = os.environ.get("DB_HOST")
 
+SECRET = os.environ.get("SECRET")
+
 API_VERSION = "v1"
 
 # main.py directory

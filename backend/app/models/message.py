@@ -1,0 +1,16 @@
+from datetime import datetime
+
+from sqlalchemy import Integer, Identity, ForeignKey, Text, DateTime
+from sqlalchemy.orm import mapped_column, Mapped
+
+from db_alchemy.base_class import Base
+
+
+class Message(Base):
+    __tablename__ = "message"
+
+    id = mapped_column(Integer, Identity(always=True), primary_key=True)
+    sender_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    recipient_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    text = mapped_column(Text, nullable=False)
+    created_at = mapped_column(DateTime, default=datetime.now)

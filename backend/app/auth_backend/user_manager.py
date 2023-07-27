@@ -1,13 +1,14 @@
 from typing import Optional
 
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, schemas, models
+from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models
 
-from schemas.users import UserCreate
-from models.users import User
+from schemas.user import UserCreate
+from models.user import User
 from dependencies.user import get_user_db
+from configs import app_configs
 
-SECRET = "SECRET"
+SECRET = app_configs.SECRET
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
