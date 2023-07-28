@@ -4,7 +4,7 @@ from api.v1.endpoints.api_routers import api_router
 from api.v1.endpoints.auth import auth_router
 from exceptions import handlers
 from configs import app_configs
-from exceptions.custom_excaptions import UserAlreadyExists
+from exceptions.custom_excaptions import UserAlreadyExists, AuthenticationError
 
 
 def create_app() -> FastAPI:
@@ -15,6 +15,10 @@ def create_app() -> FastAPI:
     app.add_exception_handler(
         exc_class_or_status_code=UserAlreadyExists,
         handler=handlers.user_already_exists_error_handler
+    )
+    app.add_exception_handler(
+        exc_class_or_status_code=AuthenticationError,
+        handler=handlers.authentication_error_handler
     )
 
     return app

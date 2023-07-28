@@ -11,5 +11,10 @@ class UserCreateSchema(BaseModel):
     password: str
 
 
+class UserAuthSchema(BaseModel):
+    username: str
+    password: str
+
+
 class UserUpdate(schemas.BaseUserUpdate):
     pass

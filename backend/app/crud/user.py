@@ -63,9 +63,3 @@ class UserBDRepo(BaseDBRepo):
 
     async def update(self, update_data: Dict[str, Any]) -> User:
         pass
-
-    # async def get_by_username(self, username: str) -> Optional[UP]:
-    #     statement = select(self.db_model).where(
-    #         func.lower(self.user_table.username) == func.lower(username)
-    #     )
-    #     return await self._get_user(statement)
