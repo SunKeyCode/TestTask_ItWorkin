@@ -5,7 +5,7 @@ from sqlalchemy.orm import mapped_column, relationship, Mapped
 from db_alchemy.base_class import Base
 
 
-class User(SQLAlchemyBaseUserTable[int], Base):
+class User(Base):
     __tablename__ = "user"
 
     id = mapped_column(Integer, Identity(always=True), primary_key=True)
