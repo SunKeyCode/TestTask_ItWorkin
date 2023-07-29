@@ -1,7 +1,7 @@
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy import Integer, Identity, String, ForeignKey, Boolean
 from sqlalchemy.orm import mapped_column, relationship, Mapped
 
+from models.image import Image
 from db_alchemy.base_class import Base
 
 
@@ -15,7 +15,7 @@ class User(Base):
     )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    profile: Mapped["UserProfile"] = relationship(back_populates="user")
+    profile: Mapped["UserProfile"] = relationship(back_populates="user", lazy="raise")
 
 
 class UserProfile(Base):
@@ -23,7 +23,10 @@ class UserProfile(Base):
 
     id = mapped_column(Integer, Identity(always=True), primary_key=True)
     phone = mapped_column(String, nullable=True)
-    avatar = mapped_column(String, nullable=True)
+    # avatar = mapped_column(String, nullable=True)
+    image_id = mapped_column(ForeignKey("image.id"), nullable=True)
     user_id = mapped_column(ForeignKey("user.id"))
+
+    avatar: Mapped["Image"] = relationship(lazy="raise")
 
     user: Mapped[User] = relationship(back_populates="profile")

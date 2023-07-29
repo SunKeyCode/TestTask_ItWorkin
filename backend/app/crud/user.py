@@ -1,8 +1,8 @@
 from typing import Sequence, Optional, Dict, Any
 
-from fastapi_users.models import UP
-from sqlalchemy import select, func, Select
+from sqlalchemy import select, func, Select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
 from crud.base_class import BaseDBRepo
 from models.user import User, UserProfile
@@ -42,9 +42,10 @@ class UserBDRepo(BaseDBRepo):
         self.db_model = User
 
     async def _get_user(self, statement: Select) -> User:
-        user = await self.session.scalar(statement)
+        async with self.session.begin():
+            user = await self.session.scalar(statement)
 
-        return user
+            return user
 
     async def create(self, create_dict: Dict[str, Any]) -> User:
         user = self.db_model(**create_dict)
@@ -61,5 +62,31 @@ class UserBDRepo(BaseDBRepo):
 
         return await self._get_user(statement)
 
-    async def update(self, update_data: Dict[str, Any]) -> User:
-        pass
+    async def get_profile(self, user_id: int):
+        statement = select(self.db_model).where(self.db_model.id == user_id).options(
+            joinedload(User.profile)
+        )
+
+        return await self._get_user(statement)
+
+    async def update_profile(self, update_data: Dict[str, Any], user: User):
+        async with self.session.begin():
+            user_with_profile: User = await self.session.scalar(
+                select(User).where(User.id == user.id).options(
+                    joinedload(User.profile)
+                )
+            )
+            for key in update_data:
+                user_with_profile.profile.__setattr__(key, update_data[key])
+
+        return user_with_profile
+
+    async def update(self, update_data: Dict[str, Any], user: User) -> User:
+        async with self.session.begin():
+            if update_data.get("username"):
+                user.username = update_data.pop("username")
+
+        if update_data:
+            user = await self.update_profile(update_data, user)
+
+        return user

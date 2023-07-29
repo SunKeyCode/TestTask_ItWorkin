@@ -21,4 +21,6 @@ API_VERSION = "v1"
 # main.py directory
 BASE_DIR = Path(__file__).resolve().parents[1]
 
+MEDIA_ROOT = BASE_DIR.parents[1] / "media/"
+
 DEBUG = True

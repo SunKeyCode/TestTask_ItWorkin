@@ -7,7 +7,7 @@ from crud.user import UserBDRepo
 from dependencies.db_session import get_db_session
 from exceptions.custom_excaptions import UserAlreadyExists, AuthenticationError
 from models.user import User
-from schemas.user import UserCreateSchema, UserAuthSchema
+from schemas.user import UserCreateSchema, UserAuthSchema, UserUpdateSchema
 
 
 class UserManager:
@@ -35,6 +35,27 @@ class UserManager:
 
         user_dict["hashed_password"] = hashed_password
         user = await self.db_manager.create(user_dict)
+
+        return user
+
+    async def get_user(self, username: str):
+        return await self.db_manager.get_user_by_username(username)
+
+    async def get_profile(self, user_id: int):
+        return await self.db_manager.get_profile(user_id)
+
+    async def update(self, user_data: UserUpdateSchema, user_to_update: User):
+        data_to_update = user_data.model_dump()
+        username = data_to_update.get("username")
+        if username is not None:
+            user_exists = await self.db_manager.get_user_by_username(username)
+            if user_exists is not None:
+                raise UserAlreadyExists
+
+        user = await self.db_manager.update(
+            data_to_update,
+            user_to_update,
+        )
 
         return user
 

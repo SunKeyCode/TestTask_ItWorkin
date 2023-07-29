@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from dependencies.db_session import get_db_session
+from dependencies.current_user import get_current_user
+from models.user import User
 from schemas.message import MessageSendModelIn, MessageSendModelOut
 from crud.message import MessageDBRepo
 
@@ -19,7 +21,9 @@ router = APIRouter(prefix="/messages")
 async def create_message(
         message_data: MessageSendModelIn,
         session: AsyncSession = Depends(get_db_session),
+        user: User = Depends(get_current_user),
 ):
+    user = user
     message = await MessageDBRepo(session).create(**message_data.model_dump())
 
     return message
