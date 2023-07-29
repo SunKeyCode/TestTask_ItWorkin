@@ -28,13 +28,13 @@ localhost:8000/docs
 
 - /auth/register - регистрация пользователя
 - /auth/login - вход по username и password
-- /auth/me/update - обновить профиль пользователя
-- /auth/me/ - получить профиль пользователя
-- /api/v1/messages/send - отправить личное сообщение
-- /api/v1/messages/get_undelivered - получить непрочитанные сообщения
-- /api/v1/messages/delivered - сделать сообщение прочитанным
+- /auth/me/update - обновить профиль пользователя (требует аутентификации)
+- /auth/me/ - получить профиль пользователя (требует аутентификации)
+- /api/v1/messages/send - отправить личное сообщение (требует аутентификации)
+- /api/v1/messages/get_undelivered - получить непрочитанные сообщения (требует аутентификации)
+- /api/v1/messages/delivered - сделать сообщение прочитанным (требует аутентификации)
 - /api/v1/users/search - поиск пользователя по части username
-- /api/v1/media/avatar/create - cоздание/изменение аватара
+- /api/v1/media/avatar/create - cоздание/изменение аватара (требует аутентификации)
 
 Используется bearer token аутентификация, для получения доступа к эндпоинту необходимо отправлять заголовок
 Authorization: bearer token (token получаем от /auth/login)
