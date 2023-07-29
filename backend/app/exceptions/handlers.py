@@ -15,14 +15,12 @@ async def user_already_exists_error_handler(_, exc: UserAlreadyExists) -> JSONRe
         status_code=status.HTTP_400_BAD_REQUEST,
         content=jsonable_encoder(
             {
-                {
-                    "detail": [
-                        {
-                            "type": "USER ALREADY EXISTS",
-                            "msg": "user with this username already exists",
-                        }
-                    ]
-                }
+                "detail": [
+                    {
+                        "type": "USER ALREADY EXISTS",
+                        "msg": "user with this username already exists",
+                    }
+                ]
             }
         ),
     )
@@ -33,15 +31,13 @@ async def authentication_error_handler(_, exc: AuthenticationError) -> JSONRespo
         status_code=status.HTTP_400_BAD_REQUEST,
         content=jsonable_encoder(
             {
-                {
-                    "detail": [
-                        {
-                            "type": "AUTHENTICATION ERROR",
-                            "msg": "username and password do not match "
-                            "or username does not exists",
-                        }
-                    ]
-                }
+                "detail": [
+                    {
+                        "type": "AUTHENTICATION ERROR",
+                        "msg": "username and password do not match "
+                        "or username does not exists",
+                    }
+                ]
             }
         ),
     )
