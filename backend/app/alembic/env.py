@@ -10,11 +10,9 @@ from alembic import context
 from configs import app_configs
 from db_alchemy.base import Base
 
-DB_URL = "postgresql+asyncpg://{user}:{password}@{host}/{db_name}".format(
-    user=app_configs.DB_USER,
-    password=app_configs.DB_PASSWORD,
-    host=app_configs.DB_HOST,
-    db_name=app_configs.DB_NAME,
+DB_URL = "{driver}:///{filename}".format(
+    driver=app_configs.DB_DRIVER,
+    filename=app_configs.DB_FILENAME,
 )
 
 # this is the Alembic Config object, which provides
