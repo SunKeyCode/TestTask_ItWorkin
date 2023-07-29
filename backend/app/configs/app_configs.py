@@ -11,6 +11,9 @@ DB_USER = os.environ.get("DB_USER")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
 DB_HOST = os.environ.get("DB_HOST")
 
+DB_DRIVER = os.environ.get("DB_DRIVER")
+DB_FILENAME = os.environ.get("DB_FILENAME")
+
 # JWT authentication
 SECRET = os.environ.get("SECRET")
 ALGORITHM = "HS256"
