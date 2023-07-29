@@ -1,7 +1,5 @@
 from typing import Optional, Tuple
 
-from fastapi_users import password, BaseUserManager
-from passlib import pwd
 from passlib.context import CryptContext
 
 
