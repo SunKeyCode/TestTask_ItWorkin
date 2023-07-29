@@ -14,7 +14,7 @@ DB_HOST = os.environ.get("DB_HOST")
 # JWT authentication
 SECRET = os.environ.get("SECRET")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 API_VERSION = "v1"
 

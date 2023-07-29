@@ -10,8 +10,8 @@ class Message(Base):
     __tablename__ = "message"
 
     id = mapped_column(Integer, Identity(always=True), primary_key=True)
-    sender_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    recipient_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    sender_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"))
+    recipient_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"))
     text = mapped_column(Text, nullable=False)
     created_at = mapped_column(DateTime, default=datetime.now)
     is_delivered: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)

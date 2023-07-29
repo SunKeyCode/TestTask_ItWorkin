@@ -1,9 +1,12 @@
-from fastapi_users import schemas
 from pydantic import BaseModel
 
+from schemas.media import MediaModelOut
 
-class UserRead(schemas.BaseUser[int]):
+
+class UserReadSchema(BaseModel):
+    id: int
     username: str
+    is_active: bool
 
 
 class UserCreateSchema(BaseModel):
@@ -26,10 +29,14 @@ class UserUpdateSchema(BaseModel):
     phone: str
 
 
-class UserUpdateSchemaOut(BaseModel):
-    pass
-
-
 class ProfileSchema(BaseModel):
     id: int
-    phone: str
+    phone: str | None
+    avatar: MediaModelOut | None
+
+
+class FullUserModelSchemaOut(BaseModel):
+    id: int
+    username: str
+    is_active: bool
+    profile: ProfileSchema

@@ -4,7 +4,6 @@ from pydantic import BaseModel, Field
 
 
 class MessageBaseModel(BaseModel):
-    sender: int
     recipient: int
     text: str
 
@@ -19,6 +18,7 @@ class MessageSendModelOut(MessageBaseModel):
     sender: int = Field(alias="sender_id")
     recipient: int = Field(alias="recipient_id")
     created_at: datetime.datetime
+    is_delivered: bool
 
     class Config:
         from_attributes = True

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.v1.endpoints.api_routers import api_router
+from api.v1.api_routers import api_router
 from api.v1.endpoints.auth import auth_router
 from exceptions import handlers
 from configs import app_configs

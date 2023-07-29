@@ -1,6 +1,6 @@
-from typing import Sequence, Optional, Dict, Any
+from typing import Sequence, Dict, Any
 
-from sqlalchemy import select, func, Select, update
+from sqlalchemy import select, func, Select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -9,34 +9,20 @@ from models.user import User, UserProfile
 
 
 class UserBDSearchRepo(BaseDBRepo):
-
     async def search_user_by_username_field(self, fragment: str) -> Sequence[User]:
         users = await self.session.scalars(
-            select(User).where(
-                User.username.like(f"%{fragment}%")
-            )
-        )
-
-        return users.all()
-
-    async def search_user_by_email_field(self, fragment: str) -> Sequence[User]:
-        users = await self.session.scalars(
-            select(User).where(
-                User.email.like(f"%{fragment}%@%")
-            )
+            select(User).where(User.username.like(f"%{fragment}%"))
         )
 
         return users.all()
 
     async def search_user(self, fragment: str) -> Sequence[User]:
         users_by_username = await self.search_user_by_username_field(fragment)
-        users_by_email = await self.search_user_by_email_field(fragment)
 
-        return list(users_by_email) + list(users_by_username)
+        return users_by_username
 
 
 class UserBDRepo(BaseDBRepo):
-
     def __init__(self, session: AsyncSession):
         super().__init__(session=session)
         self.db_model = User
@@ -63,8 +49,10 @@ class UserBDRepo(BaseDBRepo):
         return await self._get_user(statement)
 
     async def get_profile(self, user_id: int):
-        statement = select(self.db_model).where(self.db_model.id == user_id).options(
-            joinedload(User.profile)
+        statement = (
+            select(self.db_model)
+            .where(self.db_model.id == user_id)
+            .options(joinedload(User.profile).joinedload(UserProfile.avatar))
         )
 
         return await self._get_user(statement)
@@ -72,9 +60,7 @@ class UserBDRepo(BaseDBRepo):
     async def update_profile(self, update_data: Dict[str, Any], user: User):
         async with self.session.begin():
             user_with_profile: User = await self.session.scalar(
-                select(User).where(User.id == user.id).options(
-                    joinedload(User.profile)
-                )
+                select(User).where(User.id == user.id).options(joinedload(User.profile))
             )
             for key in update_data:
                 user_with_profile.profile.__setattr__(key, update_data[key])

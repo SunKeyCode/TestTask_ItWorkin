@@ -23,10 +23,13 @@ class UserProfile(Base):
 
     id = mapped_column(Integer, Identity(always=True), primary_key=True)
     phone = mapped_column(String, nullable=True)
-    # avatar = mapped_column(String, nullable=True)
     image_id = mapped_column(ForeignKey("image.id"), nullable=True)
-    user_id = mapped_column(ForeignKey("user.id"))
+    user_id = mapped_column(ForeignKey("user.id", ondelete="CASCADE"))
 
-    avatar: Mapped["Image"] = relationship(lazy="raise")
+    avatar: Mapped["Image"] = relationship(
+        lazy="raise",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
 
     user: Mapped[User] = relationship(back_populates="profile")
